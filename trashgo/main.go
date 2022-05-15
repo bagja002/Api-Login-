@@ -97,9 +97,9 @@ func Login(c *fiber.Ctx) error {
 
 	c.Cookie(&cookie)
 
-	return c.JSON(fiber.Map{
-		"massage": "Login Berhasil",
-	})
+	return c.JSON(token)
+
+	
 }
 func Users(c *fiber.Ctx) error {
 	cookie := c.Cookies("jwt")
