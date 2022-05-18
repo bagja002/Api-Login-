@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"strconv"
 	"time"
 	"trashgo/Models"
 
@@ -74,10 +73,19 @@ func Login(c *fiber.Ctx) error {
 		})
 
 	}
-	claims := jwt.StandardClaims{
-		Issuer:    strconv.Itoa(int(user.IDUser)),
-		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
-	}
+	trashgo := "trasgo"
+	claims := Models.Aku{StandardClaims: jwt.StandardClaims{
+		Issuer:    trashgo,
+		ExpiresAt: time.Now().Add(time.Minute * 10).Unix(),
+	},
+		NamaUser:    user.NamaUser,
+		Kelamin:     user.Kelamin,
+		Email:       user.Email,
+		Alamat:      user.Alamat,
+		IDUser:      user.IDUser,
+		TempatLahir: user.TempatLahir}
+
+	
 	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	token, err := jwtToken.SignedString([]byte(SecretKey))
 
