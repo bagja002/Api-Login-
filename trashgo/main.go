@@ -34,9 +34,12 @@ func Register(c *fiber.Ctx) error {
 	}
 	password, _ := bcrypt.GenerateFromPassword([]byte(data["password"]), bcrypt.DefaultCost)
 	user := Models.User{
-		Email:    data["email"],
-		NamaUser: data["nama_user"],
-		Password: password,
+		Email:       data["email"],
+		NamaUser:    data["nama_user"],
+		Password:    password,
+		Alamat:      data["alamat"],
+		TempatLahir: data["tempat_lahir"],
+		Kelamin:     data["kelamin"],
 	}
 
 	DB.Create(&user)
@@ -73,6 +76,7 @@ func Login(c *fiber.Ctx) error {
 		})
 
 	}
+
 	trashgo := "trasgo"
 	claims := Models.Aku{StandardClaims: jwt.StandardClaims{
 		Issuer:    trashgo,
@@ -85,7 +89,6 @@ func Login(c *fiber.Ctx) error {
 		IDUser:      user.IDUser,
 		TempatLahir: user.TempatLahir}
 
-	
 	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	token, err := jwtToken.SignedString([]byte(SecretKey))
 
@@ -106,10 +109,9 @@ func Login(c *fiber.Ctx) error {
 	c.Cookie(&cookie)
 
 	return c.JSON(fiber.Map{
-		"token": token,
+		"Massage": "Selamat datang ",
 	})
 
-	
 }
 func Users(c *fiber.Ctx) error {
 	cookie := c.Cookies("jwt")
