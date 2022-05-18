@@ -1,5 +1,5 @@
 package Models
-
+import "github.com/dgrijalva/jwt-go"
 type User struct {
 	IDUser      int    `json:"Id_user"`
 	Email       string `gorm:"unique"`
